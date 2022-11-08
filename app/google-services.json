@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "469035757450",
+    "firebase_url": "https://simple-chat-388bf-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "simple-chat-388bf",
+    "storage_bucket": "simple-chat-388bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469035757450:android:c3af6fd457f8396d67e273",
+        "android_client_info": {
+          "package_name": "com.koenig.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "469035757450-cvj0g2g20our2qm0m4qbp0mmhqlv0av7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-cLBNpVdhodUszi9lS2tEep6Myiqnl6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "469035757450-cvj0g2g20our2qm0m4qbp0mmhqlv0av7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

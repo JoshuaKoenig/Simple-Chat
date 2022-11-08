@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ChatApp</string>
+    <string name="shared_prefs_key">SHARED_PREFERENCES_KEY</string>
+    <string name="email_key">EMAIL_KEY</string>
+    <string name="pw_key">PASSWORD_KEY</string>
+    <string name="has_account_key">HAS_ACCOUNT_KEY</string>
+</resources>
