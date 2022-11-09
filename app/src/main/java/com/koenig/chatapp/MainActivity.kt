@@ -16,10 +16,22 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(getString(R.string.shared_prefs_key), Context.MODE_PRIVATE)
 
+        // SET THE CALLED FROM LOGIN FLAG
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(getString(R.string.is_called_from_login_activity), true)
+        editor.apply()
+
         // IF NO ACCOUNT EXISTS, CALL UP THE CREATE ACCOUNT ACTIVITY
         if(!sharedPreferences.getBoolean(getString(R.string.has_account_key), false))
         {
             val intent = Intent(this, CreateAccountActivity::class.java)
+            startActivity(intent)
+        }
+
+        // IF USER IS ALREADY LOGGED IN, CALL UP THE MESSAGE ACTIVITY
+        else if(sharedPreferences.getBoolean(getString(R.string.is_user_logged_in), false))
+        {
+            val intent = Intent(this, MessageActivity::class.java)
             startActivity(intent)
         }
 
@@ -49,6 +61,11 @@ class MainActivity : AppCompatActivity() {
         // COMPARE USER CREDENTIALS WITH USER INPUT
         if (email == emailInput && password == passwordInput)
         {
+            // SET USER IS LOGGED IN
+            val editor = sharedPreferences.edit()
+            editor.putBoolean(getString(R.string.is_user_logged_in), true)
+            editor.apply()
+
             // START THE MESSAGE-ACTIVITY
             val intent = Intent(this, MessageActivity::class.java)
             startActivity(intent)
@@ -58,6 +75,5 @@ class MainActivity : AppCompatActivity() {
             // WRONG CREDENTIALS ENTERED
             Toast.makeText(this, "WRONG CREDENTIALS", Toast.LENGTH_LONG).show()
         }
-
     }
 }

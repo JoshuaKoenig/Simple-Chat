@@ -1,9 +1,10 @@
 package com.koenig.chatapp
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.LiveData
@@ -26,8 +27,15 @@ class MessageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
 
-        // THE RECEIVED INTENT
-        val receivedIntent: Intent = Intent(Intent.ACTION_SEND)
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(getString(R.string.shared_prefs_key), Context.MODE_PRIVATE)
+
+        // IF USER IS NOT LOGGED IN, CALL UP THE REDIRECT ACTIVITY
+        if(!sharedPreferences.getBoolean(getString(R.string.is_user_logged_in), false))
+        {
+            // USER IS NOT LOGGED IN
+            val intent = Intent(this, RedirectActivity::class.java)
+            startActivity(intent)
+        }
 
         // THE MESSAGE INPUT
         val messageInput: EditText = findViewById(R.id.textMessage)
@@ -36,10 +44,14 @@ class MessageActivity : AppCompatActivity() {
         val buttonSendMessage: Button = findViewById(R.id.buttonSendMessage)
 
         // SET THE RECEIVED INTENT AS MESSAGE
-        if (receivedIntent.hasExtra(Intent.EXTRA_TEXT))
+        if (intent.hasExtra(Intent.EXTRA_TEXT))
         {
-            messageInput.setText(receivedIntent.getStringExtra(Intent.EXTRA_TEXT))
+            messageInput.setText(intent.getStringExtra(Intent.EXTRA_TEXT))
         }
+
+        // WHEN THIS ACTIVITY IS CALLED FROM A THIRD PARTY APP WITHOUT AN INTENT EXTRA
+        // THIS IS A SUSPICIOUS BEHAVIOR => CALL UP THE REDIRECT ACTIVITY
+        validateSuspiciousBehaviour(sharedPreferences, intent)
 
         // SEND THE MESSAGE
         buttonSendMessage.setOnClickListener {
@@ -82,6 +94,23 @@ class MessageActivity : AppCompatActivity() {
         {
             //TODO: CATCH EXCEPTION
         }
+    }
+
+    // VALIDATE SUSPICIOUS BEHAVIOUR
+    private fun validateSuspiciousBehaviour(sharedPreferences: SharedPreferences, receivedIntent: Intent)
+    {
+        if (!sharedPreferences.getBoolean(getString(R.string.is_called_from_login_activity), false)
+            && !receivedIntent.hasExtra(Intent.EXTRA_TEXT))
+        {
+            // SUSPICIOUS BEHAVIOR
+            val intent = Intent(this, RedirectActivity::class.java)
+            startActivity(intent)
+        }
+
+        // SET THE FLAG TO FALSE AGAIN
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(getString(R.string.is_called_from_login_activity), false)
+        editor.apply()
     }
 
     override fun onResume() {

@@ -4,4 +4,6 @@
     <string name="email_key">EMAIL_KEY</string>
     <string name="pw_key">PASSWORD_KEY</string>
     <string name="has_account_key">HAS_ACCOUNT_KEY</string>
+    <string name="is_user_logged_in">IS_USER_LOGGED_IN_KEY</string>
+    <string name="is_called_from_login_activity">IS_CALLED_FROM_LOGIN_ACTIVITY_KEY</string>
 </resources>
